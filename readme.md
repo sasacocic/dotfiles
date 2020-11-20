@@ -6,5 +6,5 @@
 
 # Dependencies
 
-- zsh + oh-my-zsh is installed
+- zsh with oh-my-zsh 
 
