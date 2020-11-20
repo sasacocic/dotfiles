@@ -9,3 +9,8 @@ packloadall
 set expandtab
 set shiftwidth=2
 
+" spellcheck
+set spelllang=en
+set spell
+" set this for.....
+" set spellfile=$HOME/...

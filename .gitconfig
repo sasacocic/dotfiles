@@ -8,3 +8,5 @@
 	cb = checkout -b
 	p = push
 	s = status
+[core]
+        editor = nvim
