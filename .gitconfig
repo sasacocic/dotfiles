@@ -1,0 +1,10 @@
+[user]
+	name = sasa cocic
+	email = cocicsasa@gmail.com
+[credential]
+	helper = store
+[alias]
+	co = checkout
+	cb = checkout -b
+	p = push
+	s = status
