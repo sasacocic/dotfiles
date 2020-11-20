@@ -7,4 +7,5 @@
 # Dependencies
 
 - zsh with oh-my-zsh 
-
+- nvim
+  - [coc](https://github.com/neoclide/coc.nvim)

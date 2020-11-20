@@ -9,4 +9,3 @@ packloadall
 set expandtab
 set shiftwidth=2
 
-test
