@@ -16,6 +16,9 @@ packloadall
 set expandtab
 set shiftwidth=2
 
+" set working directory to current file
+set autochdir
+
 " spellcheck
 set spelllang=en
 set spell

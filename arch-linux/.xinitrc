@@ -50,6 +50,8 @@ fi
 
 # sets the delay before keys start repeating in milliseconds.
 xset r rate 200
+# make caps lock key escape key
+setxkbmap -option caps:escape
 
 sxhkd &
 ./lemonbar_scripts/battery_info.sh | lemonbar -g x35 -B "#e3804b" -F "#000000" -f "xft:MesloLGS\ NF:size=14" -p &
