@@ -1,0 +1,91 @@
+schemes:
+  oneLight: &oneLight
+    primary:
+      background: '#fafafa'
+      foreground: '#383a42'
+    cursor:
+      text:       CellBackground
+      cursor:     '#526eff' # syntax-cursor-color
+    selection:
+      text:       CellForeground
+      background: '#e5e5e6' # syntax-selection-color
+    normal:
+      black:      '#696c77' # mono-2
+      red:        '#e45649' # red 1
+      green:      '#50a14f'
+      yellow:     '#c18401' # orange 2
+      blue:       '#4078f2'
+      magenta:    '#a626a4'
+      cyan:       '#0184bc'
+      white:      '#a0a1a7' # mono-3
+  ayuMirage: &ayuMirage
+    primary:
+      background: '#202734'
+      foreground: '#CBCCC6'
+    normal:
+      black: '#191E2A'
+      red: '#FF3333'
+      green: '#BAE67E'
+      yellow: '#FFA759'
+      blue: '#73D0FF'
+      magenta: '#FFD580'
+      cyan: '#95E6CB'
+      white: '#C7C7C7'
+    bright:
+      black: '#686868'
+      red: '#F27983'
+      green: '#A6CC70'
+      yellow: '#FFCC66'
+      blue: '#5CCFE6'
+      magenta: '#FFEE99'
+      cyan: '#95E6CB'
+      white: '#FFFFFF'
+  hyper: &hyper
+    primary:
+      background: '#000000'
+      foreground: '#ffffff'
+    cursor:
+      text: '#F81CE5'
+      cursor: '#ffffff'
+    normal:
+      black:   '#000000'
+      red:     '#fe0100'
+      green:   '#33ff00'
+      yellow:  '#feff00'
+      blue:    '#0066ff'
+      magenta: '#cc00ff'
+      cyan:    '#00ffff'
+      white:   '#d0d0d0'
+    bright:
+      black:   '#808080'
+      red:     '#fe0100'
+      green:   '#33ff00'
+      yellow:  '#feff00'
+      blue:    '#0066ff'
+      magenta: '#cc00ff'
+      cyan:    '#00ffff'
+      white:   '#FFFFFF'
+  tango: &tango
+    primary:
+      background: '#000000'
+      foreground: '#00ff00'
+    normal:
+        black:   '#2e3436'
+        red:     '#cc0000'
+        green:   '#73d216'
+        yellow:  '#edd400'
+        blue:    '#3465a4'
+        magenta: '#75507b'
+        cyan:    '#06989a'
+        white:   '#d3d7cf'
+    bright:
+        black:   '#2e3436'
+        red:     '#ef2929'
+        green:   '#8ae234'
+        yellow:  '#fce94f'
+        blue:    '#729fcf'
+        magenta: '#ad7fa8'
+        cyan:    '#34e2e2'
+        white:   '#eeeeec'
+
+colors: *oneLight
