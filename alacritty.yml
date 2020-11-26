@@ -89,3 +89,8 @@ schemes:
         white:   '#eeeeec'
 
 colors: *oneLight
+
+
+
+font:
+  size: 12

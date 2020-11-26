@@ -1,3 +1,4 @@
+" TODO: make {, [, (, close each other automatically
 " some stuff about tabs
 " create a new tab - :tabnew
 " go to the next tab - gt
@@ -10,6 +11,7 @@ packloadall
 
 " Found this in ale when I downloaded it.. Not sure if I need it
 " silent! helptags ALL
+helptags ALL
 
 
 " indentation
@@ -24,3 +26,41 @@ set spelllang=en
 set spell
 " set this for.....
 " set spellfile=$HOME/...
+
+" make search case insensitive by default
+" can use \c or \C when searching to make it case sensitive or insensitive
+set ic
+
+" make cursor have a line
+set cursorline
+
+
+
+
+" just examples for my to look at if I need them
+" tells vim when I press <F5> to surround a word in {}
+" :map <F5> i{<Esc>ea}<Esc>
+" F6 now writes () to a buffer
+" :map <F6> i()<Esc>
+" one key that can be used with mappings is the backslash. Here's two examples
+" :map \p i(<Esc>ea)<Esc>
+" :map \c i{<Esc>ea}<Esc>
+" tried to create a mapping to the previous file instead of typing command e#
+" every time
+" :map \b <Esc>:e#<CR>
+
+
+" Note: javascript formatting setup in ftplugin/javascript.vim
+"
+"
+" Enable true color
+if exists('+termguicolors')
+  " let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+  " let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
+endif
+
+" for some reason tmux doesn't set this properly: this is happening on mac I
+" don't know if it's going to happen on Linux. Also, if I change my Terminal
+" color theme then this might cause issues.
+set background=light
