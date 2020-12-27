@@ -76,6 +76,7 @@ z
 fzf
 nvm
 lein
+docker
 )
 
 # NOTE: fzf ohmyzsh plugin says to `export FZF_BASE` but I haven't done that and it seems to 
@@ -89,6 +90,11 @@ alias nv="nvim"
 alias u="cd .."
 alias ll='ls -FGlAhp'
 cd() { builtin cd "$@"; ll; }
+# TODO: create a loop so that I move up however many number of directories passed as the first argument to up
+# up() {
+#
+#   $1
+# }
 
 # export MANPATH="/usr/local/man:$MANPATH"
 

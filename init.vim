@@ -1,4 +1,14 @@
+" USEFUL STUFF
+" 1. reload vimrc by doing :source $MYVIMRC
 " TODO: make {, [, (, close each other automatically
+" TODO: figure out a way to create vertical splits faster, and when one opens
+" up to select files from the current directory or do a fuzzy search for
+" files.
+"
+"
+"
+"
+"
 " some stuff about tabs
 " create a new tab - :tabnew
 " go to the next tab - gt
@@ -51,16 +61,15 @@ set cursorline
 
 
 " Note: javascript formatting setup in ftplugin/javascript.vim
+" Note: markdown formatting setup in ftplugin/markdown.vim
 "
 "
 " Enable true color
 if exists('+termguicolors')
-  " let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
-  " let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
   set termguicolors
 endif
-
+colorscheme desert
 " for some reason tmux doesn't set this properly: this is happening on mac I
 " don't know if it's going to happen on Linux. Also, if I change my Terminal
 " color theme then this might cause issues.
-set background=light
+" set background=light
