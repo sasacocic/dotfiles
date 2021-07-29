@@ -7,6 +7,14 @@
 ;; 4. Dig into treemacs more. See if I can change icons & create keybindgs for it so I can work with it more easily.
 
 
+;; --------- Things I Want / vscode like --------- ;;
+;; - easy file search and go to file - already kind of have this with
+;; 
+
+;; NEW TODOS:
+;; - LOOK AT OVER ALL COMMENTS AND SEE IF I SHOULD DELETE OR REMOVE THEM
+;; - Mis spelling aren't being caught in jsx files, but I think it's because it's a programming mode and maybe I shouldn't do that
+
 
 ;; --------- Misc. --------- ;;
 
@@ -15,31 +23,147 @@
 (setq tab-stop-list (number-sequence 2 120 2))
 ;; don't want the toolbar
 (tool-bar-mode -1)
+;; don't want scroll bars on side
+(scroll-bar-mode -1)
+;; highlight the current line
+(global-hl-line-mode 1)
 
-(setq package-archives '(("melpa-stable" . "https://stable.melpa.org/packages")
+;; initalize pacakges 
+(require 'package)
+;; switched from https to http
+(setq package-archives '(("melpa-stable" . "https://stable.melpa.org/packages/")
 			 ("melpa" . "https://melpa.org/packages/")
 			 ("gnu" . "https://elpa.gnu.org/packages/")))
-;; gets rid of ~ files
-(setq make-backup-files nil)
+
+(setq make-backup-files nil) ;; I don't want ~ files. Maybe I should rethink this?
 (package-initialize)
 
 
+(unless package-archive-contents
+  (package-refresh-contents))
+
+
+;; TODO: which all packages to use-package. It's just way better than what I'm currently doing with downloading them
+;; download use-package on non linux platforms... 
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
+
+(require 'use-package)
+(setq use-package-always-ensure t)
+
+
+;; evil stuff
+(use-package evil
+  :init
+  (setq evil-want-C-u-scroll t)
+  :config
+  (evil-mode 1))
+
+;;(require 'evil)
+;;(evil-mode 1)
+
+;; evil stuff
+
+(use-package command-log-mode)
+
+
+;; note: after installing the package you need to run the function: all-the-icons-install-fonts
+(use-package all-the-icons)
+
+;; this couldn't be up downloaded... but then I did a package refresh and it worked...
+; it's still not displaying the icons and other things properly....
+(use-package doom-modeline
+  :ensure t
+  :init (doom-modeline-mode 1))
+
+;; TODO: this is doing stuff for me that I don't really want to set or
+;; don't really know what's going on
+(use-package doom-themes
+  :ensure t
+  :config
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (load-theme 'doom-one t)
+
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+  ;; Enable custom neotree theme (all-the-icons must be installed!)
+  (doom-themes-neotree-config)
+  ;; or for treemacs users
+  (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+  (doom-themes-treemacs-config)
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
+
+(use-package rainbow-delimiters)
+
+(use-package format-all)
+
+
+;; all other packages
+
+(use-package nodejs-repl)
+
+(use-package exec-path-from-shell)
+(use-package evil-smartparens )
+(use-package smartparens )
+(use-package git-gutter )
+
+(use-package flycheck )
+(use-package emmet-mode )
+(use-package treemacs-projectile )
+(use-package treemacs-evil)
+(use-package treemacs)
+(use-package helm-lsp)
+(use-package helm-projectile)
+(use-package doom-themes )
+(use-package lsp-ui)
+(use-package projectile)
+(use-package company)
+(use-package lsp-mode)
+(use-package golden-ratio)
+(use-package rainbow-delimiters )
+(use-package paredit)
+(use-package undo-fu)
+(use-package undo-tree)
+(use-package cider)
+
+(use-package clojure-mode)
+
+
+;;;
+
+;; todo run elisp menu-bar-mode -1 
+
+;; do I really need this? What happens if I delete this? How much of it do I really need? It seems like this isn't even populated in 'system crafters config'
+;; I should looks at this stackover question and move this: https://stackoverflow.com/questions/5052088/what-is-custom-set-variables-and-faces-in-my-emacs
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector
-   [default default default italic underline success warning error])
- '(ansi-color-names-vector
-   ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
- '(custom-enabled-themes '(doom-gruvbox))
- '(custom-safe-themes
-   '("d6603a129c32b716b3d3541fc0b6bfe83d0e07f1954ee64517aa62c9405a3441" default))
- '(display-line-numbers 'relative)
+ '(exwm-floating-border-color "#504945")
+ '(fci-rule-color "#7c6f64")
+ '(global-command-log-mode nil)
  '(helm-completion-style 'emacs)
+ '(highlight-tail-colors ((("#363627" "#363627") . 0) (("#323730" "#323730") . 20)))
+ '(jdee-db-active-breakpoint-face-colors (cons "#0d1011" "#fabd2f"))
+ '(jdee-db-requested-breakpoint-face-colors (cons "#0d1011" "#b8bb26"))
+ '(jdee-db-spec-breakpoint-face-colors (cons "#0d1011" "#928374"))
+ '(objed-cursor-color "#fb4934")
  '(package-selected-packages
-   '(nodejs-repl exec-path-from-shell evil-smartparens smartparens git-gutter json-mode flycheck format-all emmet-mode treemacs-projectile treemacs-evil treemacs helm-lsp helm-projectile helm doom-themes lsp-ui projectile company lsp-mode golden-ratio rainbow-delimiters paredit undo-fu undo-tree cider clojure-mode evil)))
+   '(format-all doom-modeline command-log-mode use-package nodejs-repl exec-path-from-shell evil-smartparens smartparens git-gutter flycheck emmet-mode treemacs-projectile treemacs-evil treemacs helm-lsp helm-projectile helm doom-themes lsp-ui projectile company lsp-mode golden-ratio rainbow-delimiters paredit undo-fu undo-tree cider clojure-mode evil)))
+
+
+
+;; not sure where to set this so just setting it here
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
+;; need both 'display-line-numbers-type + global display-line numerb mode 1 IF I want relative line numbers globally
+(setq display-line-numbers-type 'relative)
+;; stuff here that I had in custom-set-variables
+(global-display-line-numbers-mode 1)
 
 
 
@@ -77,9 +201,6 @@
 ;; TODO: git gutter doesn't update after commiting. I should update the the gutter when I save files? Or some other time
 ;; so I can get up to date information.
 (global-git-gutter-mode +1)
-(setq evil-want-C-u-scroll t)
-(require 'evil)
-(evil-mode 1)
 
 (require 'golden-ratio)
 (golden-ratio-mode 1)
@@ -109,7 +230,8 @@
 (add-hook 'css-mode-hook  (lambda ()
 			    (lsp)
 			    (format-all-mode)
-                            (company-mode)))
+                            (company-mode)
+                            (smartparens-mode)))
 (add-hook 'mhtml-mode-hook  (lambda ()
 			      (lsp)
                               (format-all-mode)
@@ -134,6 +256,7 @@
 (require 'treemacs-evil)
 (require 'treemacs)
 
+(global-auto-revert-mode t)
 
 ;; --------- Hooks --------- ;;
 
@@ -191,9 +314,13 @@
 
 
 
+
+
 ;; https://github.com/emacs-evil/evil - has good documentation in the Documentation section
 ;; in the github page
 (evil-define-key 'visual' evil-visual-state-map (kbd "SPC r e") 'nodejs-repl-send-region)
+
+(evil-define-key 'normal' evil-normal-state-map (kbd "SPC n r") 'nodejs-repl)
 
 ;; TODOs:
 ;; - can't close treemacs from within the treemacs buffer
@@ -201,10 +328,15 @@
 ;; learn-gramming/course/overview.md the file explorer doesn't fully show
 ;; the file that I'm currently on. This happens when switching projects.
 (evil-define-key 'normal' evil-normal-state-map
-  (kbd "SPC f t") (lambda () (interactive)
-                    (treemacs)
+  (kbd "s-\\") (lambda () (interactive)
+		 ;; doesn't work exactly how I want, but it's pretty close
                     (treemacs-display-current-project-exclusively)
                      ))
+
+
+;; new testing
+(define-key evil-treemacs-state-map (kbd "s-\\")   #'treemacs)
+
 
 ;; binds SPC + c to startup cider-jack-in
 (evil-define-key nil evil-normal-state-map
@@ -220,6 +352,9 @@
 ;; switches to the windows last open buffer
 (evil-define-key nil evil-normal-state-map
   (kbd "SPC TAB") 'evil-switch-to-windows-last-buffer)
+;; same thing as above, but I want it to work when I'm in the motion state.
+(evil-define-key 'motion evil-motion-state-map (kbd ".") 'evil-switch-to-windows-last-buffer)
+
 
 (evil-define-key nil evil-normal-state-map
   (kbd "SPC g") 'cider-find-dwim)
