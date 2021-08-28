@@ -1,20 +1,5 @@
 ;; --------- TODOS --------- ;;
-;; 0. Dig into Evil mode more.
-;; 1. figure out how to do formating on save for clojure files (clojure mode) only!
-;; 2. Figure out how to make lsp mode work with all of my JS projects
-;;    right now it's hard coded to the crowd-funded-lottery project
-;; 3. installed helm & helm-projectile, but I'm not sure I set them up correctly. Make sure they are properly setup.
-;; 4. Dig into treemacs more. See if I can change icons & create keybindgs for it so I can work with it more easily.
-
-
-;; --------- Things I Want / vscode like --------- ;;
-;; - easy file search and go to file - already kind of have this with
-;; 
-
-;; NEW TODOS:
-;; - LOOK AT OVER ALL COMMENTS AND SEE IF I SHOULD DELETE OR REMOVE THEM
-;; - Mis spelling aren't being caught in jsx files, but I think it's because it's a programming mode and maybe I shouldn't do that
-
+;; 1. installed helm & helm-projectile, but I'm not sure I set them up correctly. Make sure they are properly setup.
 
 ;; --------- Misc. --------- ;;
 
@@ -35,7 +20,7 @@
 			 ("melpa" . "https://melpa.org/packages/")
 			 ("gnu" . "https://elpa.gnu.org/packages/")))
 
-(setq make-backup-files nil) ;; I don't want ~ files. Maybe I should rethink this?
+;; (setq make-backup-files nil) ;; I don't want ~ files. Maybe I should rethink this?
 (package-initialize)
 
 
@@ -59,10 +44,6 @@
   :config
   (evil-mode 1))
 
-;;(require 'evil)
-;;(evil-mode 1)
-
-;; evil stuff
 
 (use-package command-log-mode)
 
@@ -76,8 +57,6 @@
   :ensure t
   :init (doom-modeline-mode 1))
 
-;; TODO: this is doing stuff for me that I don't really want to set or
-;; don't really know what's going on
 (use-package doom-themes
   :ensure t
   :config
@@ -91,7 +70,7 @@
   ;; Enable custom neotree theme (all-the-icons must be installed!)
   (doom-themes-neotree-config)
   ;; or for treemacs users
-  (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+  (setq doom-themes-treemacs-theme "doom-colors") ; use "doom-colors" for less minimal icon theme
   (doom-themes-treemacs-config)
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
@@ -101,59 +80,80 @@
 (use-package format-all)
 
 
-;; all other packages
-
-(use-package nodejs-repl)
-
 (use-package exec-path-from-shell)
-(use-package evil-smartparens )
-(use-package smartparens )
-(use-package git-gutter )
+(use-package evil-smartparens
+  :hook
+  (smartparens-enabled . evil-smartparens-mode) )
+(use-package smartparens 
+	 :hook
+	 (smartparens-enabled . evil-smartparens-mode)
+	 (js-mode . smartparens-mode))
+
+(require 'smartparens-config)
+
+;; TODO: git gutter doesn't update after commiting. I should update the the gutter when I save files? Or some other time
+;; so I can get up to date information.
+(use-package git-gutter
+  :config
+  (global-git-gutter-mode +1))
 
 (use-package flycheck )
-(use-package emmet-mode )
+(use-package emmet-mode
+  :hook
+  (js-mode . emmet-mode))
 (use-package treemacs-projectile )
 (use-package treemacs-evil)
 (use-package treemacs)
-(use-package helm-lsp)
+(use-package lsp-mode
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  (setq gc-cons-threshold (* 4 100000000))
+  (setq read-process-output-max (* 2 (* 1024 1024)))
+  (setq lsp-completion-provider :capf)
+  (setq lsp-log-io nil)
+  (setq lsp-enable-file-watchers nil)
+  :hook
+  (js-mode . lsp)
+  (scss-mode . lsp)
+  (css-mode . lsp)
+  (mhtml-mode . lsp)
+  :commands lsp)
+(use-package lsp-ui
+  :commands lsp-ui-mode)
+(use-package helm-lsp
+  :commands helm-lsp-workspace-symbol)
 (use-package helm-projectile)
 (use-package doom-themes )
-(use-package lsp-ui)
-(use-package projectile)
-(use-package company)
-(use-package lsp-mode)
-(use-package golden-ratio)
+(use-package projectile
+  :config 
+  (projectile-mode +1)
+  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
+
+(use-package company
+  :config
+  (setq company-minimum-prefix-length 1
+      company-idle-delay 0.2)
+  :hook
+  (scss-mode . company-mode)
+  )
+(use-package golden-ratio
+  :config
+  (golden-ratio-mode 1)
+)
 (use-package rainbow-delimiters )
-(use-package paredit)
-(use-package undo-fu)
+(use-package paredit) ;; don't know if I even use this shit....
+;; TODO: see if I can opt out of this for default emacs stuff
+(use-package undo-fu
+  :config 
+  (define-key evil-normal-state-map "u" 'undo-fu-only-undo)
+  (define-key evil-normal-state-map "\C-r" 'undo-fu-only-redo))
 (use-package undo-tree)
 (use-package cider)
 
 (use-package clojure-mode)
 
 
-;;;
-
-;; todo run elisp menu-bar-mode -1 
-
-;; do I really need this? What happens if I delete this? How much of it do I really need? It seems like this isn't even populated in 'system crafters config'
-;; I should looks at this stackover question and move this: https://stackoverflow.com/questions/5052088/what-is-custom-set-variables-and-faces-in-my-emacs
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(exwm-floating-border-color "#504945")
- '(fci-rule-color "#7c6f64")
- '(global-command-log-mode nil)
- '(helm-completion-style 'emacs)
- '(highlight-tail-colors ((("#363627" "#363627") . 0) (("#323730" "#323730") . 20)))
- '(jdee-db-active-breakpoint-face-colors (cons "#0d1011" "#fabd2f"))
- '(jdee-db-requested-breakpoint-face-colors (cons "#0d1011" "#b8bb26"))
- '(jdee-db-spec-breakpoint-face-colors (cons "#0d1011" "#928374"))
- '(objed-cursor-color "#fb4934")
- '(package-selected-packages
-   '(format-all doom-modeline command-log-mode use-package nodejs-repl exec-path-from-shell evil-smartparens smartparens git-gutter flycheck emmet-mode treemacs-projectile treemacs-evil treemacs helm-lsp helm-projectile helm doom-themes lsp-ui projectile company lsp-mode golden-ratio rainbow-delimiters paredit undo-fu undo-tree cider clojure-mode evil)))
 
 
 
@@ -186,81 +186,28 @@
 
 
 
-;; --------- Mode Setup? / Kinda Random --------- ;;
+;; --------- Mode Setup? / Kinda Random / Need to figure out what to do with these --------- ;;
 
 
 ;; sets up exec-path-from-shell
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
 
-(setq markdown-list-indent-width 2)
-
-(require 'smartparens-config)
-(add-hook 'js-mode-hook #'smartparens-mode) ;; always enable smart-parens in programming modes
-
-;; TODO: git gutter doesn't update after commiting. I should update the the gutter when I save files? Or some other time
-;; so I can get up to date information.
-(global-git-gutter-mode +1)
-
-(require 'golden-ratio)
-(golden-ratio-mode 1)
-
-
-(require 'nodejs-repl)
-
-
-(require 'lsp-mode)
-;; performance for lsp mode
-(setq gc-cons-threshold (* 2 100000000))
-(setq read-process-output-max (* 2 (* 1024 1024)))
-(setq lsp-completion-provider :capf)
-(setq lsp-log-io nil)
-(setq lsp-enable-file-watchers nil)
-;; performance for lsp mode
-(add-hook 'js-mode-hook  (lambda ()
-			   (lsp)
-			   (emmet-mode)
-			   (format-all-mode)
-			   (smartparens-mode)))
-;; have to put company mode here because for some reason it doesn't just start automatically when the server starts
-(add-hook 'scss-mode-hook  (lambda ()
-			     (lsp)
-			     (format-all-mode)
-                             (company-mode)))
-(add-hook 'css-mode-hook  (lambda ()
-			    (lsp)
-			    (format-all-mode)
-                            (company-mode)
-                            (smartparens-mode)))
-(add-hook 'mhtml-mode-hook  (lambda ()
-			      (lsp)
-                              (format-all-mode)
-			      (emmet-mode)
-                              (company-mode)))
 
 (add-hook 'text-mode-hook 'flyspell-mode)
 
-(projectile-mode +1)
-(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-;; I don't think I need this .....
-(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
 (setq js-indent-level 2)
 
-(setq company-minimum-prefix-length 1
-      company-idle-delay 0)
+
 
 (require 'helm-config)
 (helm-mode 1)
-
-(require 'treemacs-evil)
-(require 'treemacs)
 
 (global-auto-revert-mode t)
 
 ;; --------- Hooks --------- ;;
 
-(add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
 ;; for rainbow parens in clojure mode
 (add-hook 'clojure-mode-hook (lambda ()
 			       (rainbow-delimiters-mode)
@@ -269,33 +216,10 @@
 ;; golden-ratio didn't seem to work out of the box with evil mode
 (add-hook 'window-selection-change-functions (lambda (arg_one) (golden-ratio)))
 
-;; TODO # 2 : integrate https://github.com/purcell/exec-path-from-shell
-;; (add-to-list 'exec-path "/Users/sasacocic/development/crowd-funded-lottery/front/node_modules/.bin")
-
-;; auto-fill-mode will make my lines wrap when they get too long.
-;; Not sure how to change the line length tho :(
-(add-to-list 'markdown-mode-hook #'auto-fill-mode)
-
-;; easily clear the nodejs repl buffer
-(add-to-list 'nodejs-repl-mode-hook (lambda ()
-                                      (define-key nodejs-repl-mode-map (kbd "M-SPC k") 'comint-clear-buffer) ))
-
-
-
-
-;; --------- Misc. --------- ;;
-;; no idea why this is in here. I did set it though and I don't know why
-;; should be using the exec-path-from-shell package/plugin
-
-
-;; using undo-fu package for evil mode, which requires I set these key bindings.
-(define-key evil-normal-state-map "u" 'undo-fu-only-undo)
-(define-key evil-normal-state-map "\C-r" 'undo-fu-only-redo)
-
-
-
 
 ;; --------- Keybindings --------- ;;
+
+;; TODO: move this into use-package declarations
 
 ;; use helm instead of default
 (global-set-key (kbd "M-x") 'helm-M-x)
@@ -306,21 +230,6 @@
   (interactive)
   (find-file "~/.emacs.d/init.el"))
 
-(defun node-eval-region-mine ()
-  "evaultae a region of JavaScript code in the nodejs-repl"
-  ;; (nodejs-repl)
-  )
-
-
-
-
-
-
-;; https://github.com/emacs-evil/evil - has good documentation in the Documentation section
-;; in the github page
-(evil-define-key 'visual' evil-visual-state-map (kbd "SPC r e") 'nodejs-repl-send-region)
-
-(evil-define-key 'normal' evil-normal-state-map (kbd "SPC n r") 'nodejs-repl)
 
 ;; TODOs:
 ;; - can't close treemacs from within the treemacs buffer
@@ -334,9 +243,7 @@
                      ))
 
 
-;; new testing
 (define-key evil-treemacs-state-map (kbd "s-\\")   #'treemacs)
-
 
 ;; binds SPC + c to startup cider-jack-in
 (evil-define-key nil evil-normal-state-map
@@ -358,31 +265,10 @@
 
 (evil-define-key nil evil-normal-state-map
   (kbd "SPC g") 'cider-find-dwim)
-
-;; TODO: remap this to something else
-;;(evil-define-key nil evil-normal-state-map
-;;  (kbd "SPC f") 'cider-format-buffer)
-;; ughhh why the fuck is this here. It was automatically added.
-(put 'erase-buffer 'disabled nil)
-
-;; --------- Functions --------- ;;
-
-;; does add-to-list modify the list or create a new list?
-
-;; TODO: if projdctile-known-projects isn't there then this will fail.
-;; TODO: this is a terrible solution. I've already spent quite a bit of time on this already, but
-;; TODO: if a project doesn't have its node_modules dir in it's front dir then LSP won't work.
-;; TODO: I don't think this works the way I expect, which is for it to pick the directory which
-;; it is in, but instead it just picks the first on it finds from the projects so this is really
-;; just wasting time
-(defun add_node_modules_to_exec_path ()
-  "if I'm in a projectile project then search for a node_modules directory"
-
-  (dolist
-      (proj (mapcar (lambda (path)
-                      (concat (expand-file-name path) "front/node_modules/.bin")) projectile-known-projects))
-    ;; adding t at the end will make it append rather than push to front
-    (add-to-list 'exec-path proj t))
-  )
-
-;; (add_node_modules_to_exec_path)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(cider undo-tree undo-fu paredit golden-ratio company helm-projectile helm-lsp lsp-ui lsp-mode treemacs-evil treemacs-projectile emmet-mode flycheck git-gutter evil-smartparens exec-path-from-shell format-all rainbow-delimiters doom-themes doom-modeline all-the-icons command-log-mode evil use-package)))
