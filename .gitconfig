@@ -9,4 +9,4 @@
 	p = push
 	s = status
 [core]
-        editor = nvim
+        editor = vim
