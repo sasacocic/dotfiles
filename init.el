@@ -13,6 +13,17 @@
 ;; highlight the current line
 (global-hl-line-mode 1)
 
+
+;; only here because list-packages doesn't work without it for some reason
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(gnutls-algorithm-priority "normal:-vers-tls1.3")
+ '(package-selected-packages
+   '(cider undo-tree undo-fu paredit golden-ratio company helm-projectile helm-lsp lsp-ui lsp-mode treemacs-evil treemacs-projectile emmet-mode flycheck git-gutter evil-smartparens exec-path-from-shell format-all rainbow-delimiters doom-themes doom-modeline all-the-icons command-log-mode evil use-package)))
+
 ;; initalize pacakges 
 (require 'package)
 ;; switched from https to http
@@ -20,7 +31,7 @@
 			 ("melpa" . "https://melpa.org/packages/")
 			 ("gnu" . "https://elpa.gnu.org/packages/")))
 
-;; (setq make-backup-files nil) ;; I don't want ~ files. Maybe I should rethink this?
+(setq make-backup-files nil) ;; I don't want ~ files. Maybe I should rethink this?
 (package-initialize)
 
 
@@ -35,6 +46,16 @@
 
 (require 'use-package)
 (setq use-package-always-ensure t)
+
+(use-package auto-package-update
+  :custom
+  (auto-package-update-interval 7)
+  (auto-package-update-prompt-before-update t) 
+  :config
+  (auto-package-update-maybe)
+  ;; (auto-package-update-at-time "09:00") ;; I don't want this to call me during the day
+  )
+
 
 
 ;; evil stuff
@@ -107,7 +128,7 @@
 (use-package lsp-mode
   :init
   (setq lsp-keymap-prefix "C-c l")
-  (setq gc-cons-threshold (* 4 100000000))
+  (setq gc-cons-threshold (* 2 100000000))
   (setq read-process-output-max (* 2 (* 1024 1024)))
   (setq lsp-completion-provider :capf)
   (setq lsp-log-io nil)
@@ -154,8 +175,18 @@
 (use-package clojure-mode)
 
 
+;; honeslty no idea if I can't just use the 'use-package' syntax here..
+(recentf-mode 1)
+(setq recentf-max-menu-items 25)
+(setq recentf-max-saved-items 25)
+(global-set-key "\C-x\ \C-r" 'recentf-open-files)
 
 
+
+
+
+;; set font - this font won't be available for other computers by default... so not sure what else I should default to???
+(set-face-attribute 'default nil :font "Cartograph Cf")
 
 ;; not sure where to set this so just setting it here
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
@@ -194,6 +225,8 @@
   (exec-path-from-shell-initialize))
 
 
+;; i don't fully understand this, but i need it
+(setq ispell-program-name "/usr/local/bin/aspell")
 (add-hook 'text-mode-hook 'flyspell-mode)
 
 
@@ -265,10 +298,4 @@
 
 (evil-define-key nil evil-normal-state-map
   (kbd "SPC g") 'cider-find-dwim)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(cider undo-tree undo-fu paredit golden-ratio company helm-projectile helm-lsp lsp-ui lsp-mode treemacs-evil treemacs-projectile emmet-mode flycheck git-gutter evil-smartparens exec-path-from-shell format-all rainbow-delimiters doom-themes doom-modeline all-the-icons command-log-mode evil use-package)))
+
