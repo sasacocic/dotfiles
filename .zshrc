@@ -91,10 +91,13 @@ alias u="cd .."
 alias ll='ls -FGlAhp'
 cd() { builtin cd "$@"; ll; }
 # TODO: create a loop so that I move up however many number of directories passed as the first argument to up
-# up() {
-#
-#   $1
-# }
+up() {
+
+  for run in {1..$1}; do
+    builtin cd "./.."
+  done
+  ll
+}
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -119,4 +122,3 @@ cd() { builtin cd "$@"; ll; }
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-
