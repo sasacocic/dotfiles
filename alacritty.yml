@@ -4,8 +4,8 @@ font:
 # want to setup oh-my-fish before really using this
 # Also, need to figure out errors related to PATH - cargo and rustup aren't
 # available
-shell:
-  program: /usr/local/bin/fish
+# shell:
+#   program: /usr/local/bin/fish
 
 schemes:
   oneLight: &oneLight
@@ -124,3 +124,10 @@ schemes:
       magenta: '#A578EA'
       cyan:    '#73FBF1'
       white:   '#FEFEF8'
+
+
+
+
+key_bindings:
+  # CreateNewWindow isn't here then it will create a new instance of alacritty - at least on Mac OS - not sure about other OS
+  - { key: N,        mods: Command,       action: CreateNewWindow 	       }
