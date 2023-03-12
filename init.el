@@ -186,7 +186,7 @@
 
 
 ;; set font - this font won't be available for other computers by default... so not sure what else I should default to???
-;;(set-face-attribute 'default nil :font "Cartograph Cf")
+;; (set-face-attribute 'default nil :font "Cartograph Cf")
 
 ;; not sure where to set this so just setting it here
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
@@ -226,7 +226,8 @@
 
 
 ;; i don't fully understand this, but i need it
-(setq ispell-program-name "/usr/local/bin/aspell")
+;(setq ispell-program-name "/usr/local/bin/aspell")
+(setq ispell-program-name "/opt/homebrew/bin/aspell")
 (add-hook 'text-mode-hook 'flyspell-mode)
 
 

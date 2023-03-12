@@ -74,8 +74,21 @@ git
 tmux
 z
 fzf
+fnm
 docker
+pyenv
+kubectl
+terraform
+helm
 )
+
+# fnm setup
+eval "$(fnm env --use-on-cd)" # for fnm
+
+# pyenv setup
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
 
 # NOTE: fzf ohmyzsh plugin says to `export FZF_BASE` but I haven't done that and it seems to 
 # work fine
@@ -96,6 +109,12 @@ up() {
   done
   ll
 }
+# django specific aliases
+alias pmr="python manage.py runserver"
+alias pms="python manage.py shell"
+alias pmmm="python manage.py makemigrations"
+alias pmm="python manage.py migrate"
+alias pat="bat -p"
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -120,3 +139,14 @@ up() {
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+# my personal stuff
+
+# Needed for GPG apparently
+GPG_TTY=$(tty)
+export GPG_TTY
+
+
+# k8s-ps1
+source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
+PS1='$(kube_ps1)'$PS1
