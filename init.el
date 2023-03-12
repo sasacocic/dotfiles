@@ -225,9 +225,12 @@
   (exec-path-from-shell-initialize))
 
 
-;; i don't fully understand this, but i need it
-;(setq ispell-program-name "/usr/local/bin/aspell")
-(setq ispell-program-name "/opt/homebrew/bin/aspell")
+;; homebrew installs things in locations depending if your cpu architecture
+;; is ARM or Intel(x86) - this selects the right one
+(if (file-exists-p  "/usr/local/bin/aspell")
+    (setq ispell-program-name   "/usr/local/bin/aspell")
+  (setq ispell-program-name "/opt/homebrew/bin/aspell"))
+
 (add-hook 'text-mode-hook 'flyspell-mode)
 
 
