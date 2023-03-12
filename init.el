@@ -186,7 +186,7 @@
 
 
 ;; set font - this font won't be available for other computers by default... so not sure what else I should default to???
-(set-face-attribute 'default nil :font "Cartograph Cf")
+;;(set-face-attribute 'default nil :font "Cartograph Cf")
 
 ;; not sure where to set this so just setting it here
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
@@ -234,7 +234,9 @@
 
 
 
-(require 'helm-config)
+;; commented out helm-config because it was causing issue... but don't
+;; know why this started happening
+;; (require 'helm-config)
 (helm-mode 1)
 
 (global-auto-revert-mode t)

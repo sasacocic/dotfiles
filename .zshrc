@@ -74,8 +74,6 @@ git
 tmux
 z
 fzf
-nvm
-lein
 docker
 )
 
